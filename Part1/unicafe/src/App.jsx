@@ -57,8 +57,6 @@ const Statistics = ({good,neutral,bad}) => {
               <StatisticLine text="positive" value={positive}/> 
             </tbody>
           </table>
-
-
       </div>
     )
   }

@@ -28,9 +28,7 @@ const Content = (props) => {
   console.log(parts)
   return (
     <div>
-    <Part content = "Fundamentals of React" exercices = {parts[0].exercises}/>
-    <Part content = "Using props to pass data" exercices = {parts[1].exercises}/>
-    <Part content = "State of a component" exercices = {parts[2].exercises} />
+      {parts.map(part => <Part key ={part.id} content={part.name} exercices={part.exercises}/>)}
     </div>
   )
 }

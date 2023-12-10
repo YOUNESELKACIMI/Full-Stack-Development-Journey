@@ -7,6 +7,7 @@ const Course = ({course}) => {
     <div>
       <Header course = {course.name} /> 
       <Content parts={course.parts}/>
+      <Sum parts = {course.parts}/>
     </div>
   )
 }
@@ -45,6 +46,16 @@ const Part = (props) => {
   )
 }
 
+
+const Sum = (props) => {
+  const {parts} = props
+  console.log("parts in Sum Component is ",parts)
+  return (
+    <div>
+      total of {parts[0].exercises+parts[1].exercises+parts[2].exercises} exercises
+    </div>
+  )
+}
 
 
 

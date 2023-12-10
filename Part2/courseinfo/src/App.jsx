@@ -49,10 +49,11 @@ const Part = (props) => {
 
 const Sum = (props) => {
   const {parts} = props
+  const initialValue = 0
   console.log("parts in Sum Component is ",parts)
   return (
     <div>
-      total of {parts[0].exercises+parts[1].exercises+parts[2].exercises} exercises
+      total of {parts.reduce((s,p) => s+p.exercises,initialValue, )} exercises
     </div>
   )
 }

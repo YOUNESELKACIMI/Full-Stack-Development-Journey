@@ -4,7 +4,7 @@ import Person from './components/Person'
 const App = () => {
 
     const [persons,setPersons] = useState([{name:'Arto Hellas'}])
-    const [newName,SetNewName] = useState('')
+    const [newName,SetNewName] = useState('')    
 
   
   const addNewPerson = (event) => {
@@ -15,7 +15,15 @@ const App = () => {
       name:newName
     }
   
-    setPersons(persons.concat(PersonObject))
+    const PrecedentExistenceOfPerson = persons.filter(person => JSON.stringify(person)==JSON.stringify(PersonObject))
+    if(PrecedentExistenceOfPerson.length==1){
+      console.log("returned filtered array = ",PrecedentExistenceOfPerson,`${newName} is already added to phonebook`)
+      alert(`${newName} is already added to phonebook`);
+    }
+    else {
+      setPersons(persons.concat(PersonObject))
+     
+    }
   }
 
   const handlePersonAdd = (event) => {

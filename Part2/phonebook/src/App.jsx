@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import Person from './components/Person'
+import Persons from './components/Persons'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
 
 const App = () => {
 
@@ -49,6 +51,7 @@ const App = () => {
   const handleFilter = (event) => {
     setNewFilter(event.target.value)
   }
+
   console.log("new name is ",newName)
   console.log("new number is ",newNumber)
   console.log("persons array is  ",persons)
@@ -56,33 +59,23 @@ const App = () => {
   return(
     <div>
       <h2>Phonebook</h2>
-      <form>
-        <div>
-          filter show with : <input value ={newFilter} onChange={handleFilter}/>
-        </div>
-      </form>
+      <Filter newFilter={newFilter} handleFilter={handleFilter}/>
       <h2>add a new</h2>
-      <form onSubmit = {addNewPerson}>
-        <div>
-          name : <input value={newName} onChange={handlePersonAdd} />
-        </div>
-        <div>
-          number : <input value={newNumber} onChange={handleNumberAdd} />
-        </div>
-        <div>
-          <button type = "submit">add</button>
-        </div>
-      </form>
-
-
+      <PersonForm newName={newName} newNumber={newNumber} addNewPerson={addNewPerson} handlePersonAdd={handlePersonAdd} handleNumberAdd={handleNumberAdd}/>
       <h2>Numbers</h2>
-      <div>
-        <ul>{persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase())===true).map(filteredPerson => <Person key = {filteredPerson.name} person={filteredPerson} />)}</ul>
-      </div>
+      <Persons persons={persons} newFilter={newFilter}/>
     </div>
 
   )
-
 }
+
+
+
+
+
+
+
+
+
 
 export default App

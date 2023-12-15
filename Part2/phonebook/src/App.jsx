@@ -19,18 +19,17 @@ const App = () => {
     axios
       .get('http://localhost:3001/persons')
       .then(response => {
-        console.log("promise fullfiled")
+        console.log("promise fullfiled",response.data)
         setPersons(response.data)
       })
-
-
   },[])
 
-
+  console.log("render",persons.length,"person")
   
   
   const addNewPerson = (event) => {
     event.preventDefault()
+    const url = 'http://localhost:3001/persons'
     console.log(event.target)
 
     const PersonObject = {
@@ -46,7 +45,18 @@ const App = () => {
       alert(`${newName} is already added to phonebook`);
     }
     else {
-      setPersons(persons.concat(PersonObject))
+      axios
+        .post(url,PersonObject)
+        .then(response =>{
+          console.log("response data from the post method is ",response.data)
+          setPersons([...persons, response.data])
+        })
+
+        SetNewName('')
+        setNewNumber('')
+
+    
+
      
     }
   }

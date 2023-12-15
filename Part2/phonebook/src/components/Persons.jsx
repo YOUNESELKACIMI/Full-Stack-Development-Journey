@@ -1,20 +1,18 @@
 
-const Persons = ({persons,newFilter,remove}) => {
+const Persons = ({persons,newFilter}) => {
   
   return (
     <div>
-    <ul>{persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase())===true).map(filteredPerson => <Person key = {filteredPerson.name} person={filteredPerson} remove={remove}/>)}</ul>
+    <ul>{persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase())===true).map(filteredPerson => <Person key = {filteredPerson.name} person={filteredPerson} />)}</ul>
   </div>
   )
 }
 
 
-const Person = ({ person, remove}) => {
+const Person = ({ person }) => {
     console.log("the person object in the Person component",person)
     return (
-      <div>
-      <li>{person.name} {person.number}<button onClick={()=>remove(person.id)}>delete</button></li>
-      </div>
+      <li>{person.name} {person.number}</li>
     )
   }
   

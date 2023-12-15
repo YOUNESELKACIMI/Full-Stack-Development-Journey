@@ -2,6 +2,7 @@ import { useState,useEffect } from 'react'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
+import personServices from './services/persons'
 import axios from 'axios'
 
 
@@ -16,12 +17,11 @@ const App = () => {
 
   useEffect(()=>{
     console.log("Effect is taking place")
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log("promise fullfiled",response.data)
-        setPersons(response.data)
-      })
+     personServices
+     .getAll()
+     .then(initialPersons=>{
+      setPersons(initialPersons)
+     }) 
   },[])
 
   console.log("render",persons.length,"person")
@@ -45,21 +45,32 @@ const App = () => {
       alert(`${newName} is already added to phonebook`);
     }
     else {
-      axios
-        .post(url,PersonObject)
-        .then(response =>{
-          console.log("response data from the post method is ",response.data)
-          setPersons([...persons, response.data])
-        })
+        console.log('the create method is Here')
+        personServices
+          .create(PersonObject)
+          .then(returnedPerson=>{
+            console.log("response data from the post method is ",returnedPerson)
+            setPersons(persons.concat(returnedPerson))
+          })
 
         SetNewName('')
-        setNewNumber('')
-
-    
-
-     
+        setNewNumber('')    
     }
   }
+
+  const handleRemovePerson = (id) =>{
+    if(window.confirm("do you really want to delete this person")){
+      console.log("attempt to delete a person inside handleRemovePerson")
+      personServices
+        .remove(id)
+        .then(returnedPerson=>{
+          setPersons(persons.filter(person=>person.id!==id))
+        })
+      }     
+  }
+
+
+
 
   const handlePersonAdd = (event) => {
     console.log("event value in the person event handler",event.target.value)
@@ -87,9 +98,8 @@ const App = () => {
       <h2>add a new</h2>
       <PersonForm newName={newName} newNumber={newNumber} addNewPerson={addNewPerson} handlePersonAdd={handlePersonAdd} handleNumberAdd={handleNumberAdd}/>
       <h2>Numbers</h2>
-      <Persons persons={persons} newFilter={newFilter}/>
+      <Persons persons={persons} newFilter={newFilter} remove={handleRemovePerson}/>
     </div>
-
   )
 }
 

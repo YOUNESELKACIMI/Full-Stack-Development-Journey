@@ -39,10 +39,18 @@ const App = () => {
 
     console.log("the person object to be concated is = ",PersonObject)
   
-    const PrecedentExistenceOfPerson = persons.filter(person => JSON.stringify(person)==JSON.stringify(PersonObject))
-    if(PrecedentExistenceOfPerson.length==1){
-      console.log("returned filtered array = ",PrecedentExistenceOfPerson,`${newName} is already added to phonebook`)
-      alert(`${newName} is already added to phonebook`);
+    if (persons.some(e => e.name === PersonObject.name)) {
+      alert(`${newName} is already added to phonebook do you want to change its number`);
+      const existingPerson = persons.find(person=>person.name==PersonObject.name)
+      const id = existingPerson.id
+      console.log("existing Person = ",existingPerson)
+      personServices
+        .update(existingPerson.id,PersonObject)
+        .then(returnedPerson=>{
+          setPersons(persons.map(person=>person.id===id?returnedPerson:person))
+      
+        })
+
     }
     else {
         console.log('the create method is Here')
@@ -59,14 +67,12 @@ const App = () => {
   }
 
   const handleRemovePerson = (id) =>{
-    if(window.confirm("do you really want to delete this person")){
-      console.log("attempt to delete a person inside handleRemovePerson")
-      personServices
-        .remove(id)
-        .then(returnedPerson=>{
-          setPersons(persons.filter(person=>person.id!==id))
-        })
-      }     
+    console.log("attempt to delete a person inside handleRemovePerson")
+    personServices
+      .remove(id)
+      .then(returnedPerson=>{
+        setPersons(persons.filter(person=>person.id!==id))
+      })     
   }
 
 

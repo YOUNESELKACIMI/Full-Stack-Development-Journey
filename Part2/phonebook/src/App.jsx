@@ -6,6 +6,23 @@ import personServices from './services/persons'
 import axios from 'axios'
 
 
+const Notification = ({message}) => {
+
+
+
+  if(message==null) {
+    return null
+  }
+
+  return(
+    <div className='error'>
+      {message}
+    </div>
+  )
+
+}
+
+
 
 const App = () => {
 
@@ -13,6 +30,8 @@ const App = () => {
     const [newName,SetNewName] = useState('')   
     const [newNumber,setNewNumber] = useState('') 
     const [newFilter,setNewFilter] = useState('')
+    const [errorMessage,SetErrorMessage] = useState(null)
+
 
 
   useEffect(()=>{
@@ -40,7 +59,16 @@ const App = () => {
     console.log("the person object to be concated is = ",PersonObject)
   
     if (persons.some(e => e.name === PersonObject.name)) {
-      alert(`${newName} is already added to phonebook do you want to change its number`);
+      //console.log('trueeeeee')
+      //alert(`${newName} is already added to phonebook do you want to change its number`);
+      
+      SetErrorMessage(`${newName} is already added to phonebook do you want to change its number`)
+
+      setTimeout(()=>{
+        SetErrorMessage(null)
+      },5000)
+      
+      
       const existingPerson = persons.find(person=>person.name==PersonObject.name)
       const id = existingPerson.id
       console.log("existing Person = ",existingPerson)
@@ -100,6 +128,7 @@ const App = () => {
   return(
     <div>
       <h2>Phonebook</h2>
+      <Notification message={errorMessage}/>
       <Filter newFilter={newFilter} handleFilter={handleFilter}/>
       <h2>add a new</h2>
       <PersonForm newName={newName} newNumber={newNumber} addNewPerson={addNewPerson} handlePersonAdd={handlePersonAdd} handleNumberAdd={handleNumberAdd}/>

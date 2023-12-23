@@ -78,6 +78,18 @@ const App = () => {
           setPersons(persons.map(person=>person.id===id?returnedPerson:person))
       
         })
+        .catch(error=>{
+        
+          SetErrorMessage(`Information of '${newName}' has already been deleted from the server`)        
+          console.log("404 error handling here")
+  
+          setTimeout(()=>{
+            SetErrorMessage(null)
+          },5000)
+  
+          //setPersons(persons.filter(persons=>note.id!==id))
+        })
+  
 
     }
     else {
@@ -100,7 +112,7 @@ const App = () => {
       .remove(id)
       .then(returnedPerson=>{
         setPersons(persons.filter(person=>person.id!==id))
-      })     
+      })
   }
 
 

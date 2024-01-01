@@ -1,8 +1,13 @@
 console.log("hello world")
 
 const express = require('express')
+
+const morgan = require('morgan')
+
 const app= express()
 app.use(express.json())
+app.use(morgan("dev"))
+
 
 let persons = [
     { 
@@ -93,6 +98,8 @@ app.post('/api/persons',(req,res)=>{
     res.json(person)
     
 })
+
+
 
 const PORT = 3001
 app.listen(PORT,()=>{

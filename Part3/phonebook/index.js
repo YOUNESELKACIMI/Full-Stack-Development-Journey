@@ -62,6 +62,7 @@ const generateId = ()=>{
     return MaxId +1
 }
 
+
 app.post('/api/persons',(req,res)=>{
 
     const body = req.body
@@ -76,6 +77,12 @@ app.post('/api/persons',(req,res)=>{
             error:"number is missing"
         })
     }
+
+
+    if(persons.map(person=>person.name).includes(body.name)){
+        return res.status(409).json({error:"name must be unique"})
+    }
+
     const person = {
         id:generateId(),
         name:body.name,
